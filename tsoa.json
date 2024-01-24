@@ -1,0 +1,35 @@
+{
+  "entryFile": "src/index.ts",
+  "noImplicitAdditionalProperties": "silently-remove-extras",
+  "controllerPathGlobs": ["src/controllers/*.ts"],
+  "spec": {
+    "outputDirectory": "Public",
+    "basePath": "/api",
+    "name": "ShareScribe-API",
+    "version": "1.0.0",
+    "description": "This is a simple notes sharing api, in which you can create, read, update, delete and share notes with other users.",
+    "securityDefinitions": {
+      "BearerAuth": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+      }
+    },
+    "yaml": false,
+    "specVersion": 3,
+    "spec": {
+      "servers": [
+        {
+          "url": "http://localhost:5000/api"
+        },
+        {
+          "url": "https://api.yourdomain.com/api"
+        }
+      ]
+    }
+  },
+  "routes": {
+    "basePath": "/v1"
+  }
+}

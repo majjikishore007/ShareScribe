@@ -1,0 +1,532 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"UserRes": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"email",
+					"createdAt",
+					"updatedAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CustomError": {
+				"properties": {
+					"status": {
+						"type": "number",
+						"format": "double"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CustomResponse_UserRes-Array-or-null_": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/UserRes"
+						},
+						"type": "array",
+						"nullable": true
+					},
+					"error": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/CustomError"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"data",
+					"error"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CustomResponse_UserRes-or-null_": {
+				"properties": {
+					"data": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/UserRes"
+							}
+						],
+						"nullable": true
+					},
+					"error": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/CustomError"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"data",
+					"error"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"NotesRes": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"content": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"userId",
+					"title",
+					"content",
+					"createdAt",
+					"updatedAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CustomResponse_NotesRes-or-null_": {
+				"properties": {
+					"data": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/NotesRes"
+							}
+						],
+						"nullable": true
+					},
+					"error": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/CustomError"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"data",
+					"error"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"NoteCreationReq": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"content": {
+						"type": "string"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"title",
+					"content",
+					"userId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CustomResponse__token-string_-or-null_": {
+				"properties": {
+					"data": {
+						"properties": {
+							"token": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"token"
+						],
+						"type": "object",
+						"nullable": true
+					},
+					"error": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/CustomError"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"data",
+					"error"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserSignUpRequest": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserSignInRequest": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CustomResponse_string-or-null_": {
+				"properties": {
+					"data": {
+						"type": "string",
+						"nullable": true
+					},
+					"error": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/CustomError"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"data",
+					"error"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"BearerAuth": {
+				"type": "apiKey",
+				"name": "Authorization",
+				"in": "header",
+				"description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+			}
+		}
+	},
+	"info": {
+		"title": "ShareScribe-API",
+		"version": "1.0.0",
+		"description": "This is a simple notes sharing api, in which you can create, read, update, delete and share notes with other users.",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {
+			"name": "Majji Kishore"
+		}
+	},
+	"paths": {
+		"/user/all": {
+			"get": {
+				"operationId": "GetAllUsers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomResponse_UserRes-Array-or-null_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/user/{userId}": {
+			"get": {
+				"operationId": "GetUserById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomResponse_UserRes-or-null_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/notes/create": {
+			"post": {
+				"operationId": "CreateNote",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomResponse_NotesRes-or-null_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Notes"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/NoteCreationReq"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/notes/{userId}/{noteId}": {
+			"get": {
+				"operationId": "GetNoteById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomResponse_NotesRes-or-null_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Notes"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "noteId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/auth/signup": {
+			"post": {
+				"operationId": "Signup",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomResponse__token-string_-or-null_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserSignUpRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/signin": {
+			"post": {
+				"operationId": "SignIn",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomResponse__token-string_-or-null_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserSignInRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/signout": {
+			"get": {
+				"operationId": "SignOut",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomResponse_string-or-null_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication"
+				],
+				"security": [],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "http://localhost:5000/api"
+		},
+		{
+			"url": "https://api.yourdomain.com/api"
+		}
+	]
+}

@@ -1,0 +1,13 @@
+## Packages used in this project
+
+- express
+- typeorm
+- reflect-metadata
+- pg 
+
+## dev dependencies
+
+- typescript
+- nodemon
+- gen-env-types
+- ts-node

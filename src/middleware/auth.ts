@@ -6,8 +6,9 @@ import { handleErrors } from '../utils/utils';
 
 export const isAuthenticated = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log('req.profile ', req.profile);
+    console.log('req.profile ', req.profile?.id, ' req.auth ', req.auth);
     const checker = req.profile != null && req.auth != null && req.profile.id === req.auth._id;
+    console.log('checker ', checker);
     if (!checker) {
       res.status(403).json(new CustomResponse(null, new CustomError('Access denied', 403)));
     } else {
@@ -23,3 +24,18 @@ export const isSignedIn = expressjwt({
   requestProperty: 'auth',
   algorithms: ['RS256', 'HS256']
 });
+
+// check if user permission is owner or not
+
+export const isOwner = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const checker = req.note != null && req.profile != null && req.note.userId === req.profile.id;
+    if (!checker) {
+      res.status(403).json(new CustomResponse(null, new CustomError('Access denied', 403)));
+    } else {
+      next();
+    }
+  } catch (error) {
+    res.status(500).json(new CustomResponse(null, handleErrors(error)));
+  }
+}

@@ -8,7 +8,7 @@ export const hashPassword = (plainPassword: string): string => {
   return createHmac('sha256', _APP_SECRET_).update(plainPassword).digest('hex');
 };
 export const createJWTToken = (id: number): string => {
-  return jwt.sign({ user_id: id }, _APP_SECRET_, { expiresIn: '10h' });
+  return jwt.sign({ _id: id }, _APP_SECRET_, { expiresIn: '10h' });
 };
 
 export const handleErrors = (error: any): CustomError => {

@@ -30,6 +30,7 @@
     }
   },
   "routes": {
-    "basePath": "/v1"
+    "basePath": "/v1",
+    "authenticationModule": "./src/middleware/auth"
   }
 }

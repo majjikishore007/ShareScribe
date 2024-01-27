@@ -1,9 +1,11 @@
-import { type User } from './models/user';
+import { type NotesRes } from './controllers/notes';
+import { type UserRes } from './controllers/user';
 
 declare global {
   namespace Express {
     interface Request {
-      profile?: User;
+      profile?: UserRes;
+      note?: NotesRes;
       auth?: { _id: number };
     }
   }

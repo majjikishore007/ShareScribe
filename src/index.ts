@@ -7,6 +7,7 @@ import { _APP_PORT_ } from './credentials';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
 import noteRotues from './routes/note';
+import shareNoteRoutes from './routes/shareNote';
 import cookieParser from 'cookie-parser';
 import { getSwaggerDoc } from './config/swagger';
 const main = async (): Promise<void> => {
@@ -47,7 +48,7 @@ const main = async (): Promise<void> => {
     app.use('/api/auth', authRoutes);
     app.use('/api/user', userRoutes);
     app.use('/api/note', noteRotues);
-
+    app.use('/api/notes', shareNoteRoutes);
     app.listen(_APP_PORT_, () => {
       console.log(`Server listening on port ${_APP_PORT_}`);
     });

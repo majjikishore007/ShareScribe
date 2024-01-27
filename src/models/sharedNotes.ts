@@ -14,7 +14,10 @@ export class SharedNote {
   id: number;
 
   @ManyToOne(() => User, (user) => user.id)
-  userId: number;
+  byuserId: number;
+
+  @ManyToOne(() => User, (user) => user.id)
+  toUserId: number;
 
   @ManyToOne(() => Note, (note) => note.id)
   noteId: number;

@@ -21,4 +21,5 @@ router.get('/:userId', isSignedIn, isAuthenticated, async (req, res) => {
     res.status(404).json(new CustomResponse(null, new CustomError('User not found', 404)));
   }
 });
+
 export default router;

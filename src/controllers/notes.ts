@@ -4,7 +4,7 @@ import { AppDataSource } from '../config/database/ormconfig';
 import { Note } from '../models/notes';
 import { CustomError, CustomResponse } from '../types';
 import { handleErrors } from '../utils/utils';
-import { type Permission } from '../models/sharedNotes';
+import { SharedNote, type Permission } from '../models/sharedNotes';
 
 export interface NoteCreationReq {
   title: string;
@@ -24,16 +24,17 @@ export interface NotesRes {
 @Tags('Notes')
 export class NotesController extends Controller {
   private readonly notesRepository = AppDataSource.getRepository(Note);
+  private readonly shareNoteRepository = AppDataSource.getRepository(SharedNote);
 
   @Post('create/{userId}')
   public async createNote(
     @Path() userId: number,
     @Body() noteCreationReq: NoteCreationReq
-  ): Promise<CustomResponse<NotesRes | null>> {
+  ): Promise<CustomResponse<string | null>> {
     try {
       const data = await this.notesRepository.save({ ...noteCreationReq, userId });
       if (data !== null) {
-        return new CustomResponse(data, null);
+        return new CustomResponse('Notes created successfully', null);
       } else {
         return new CustomResponse(null, new CustomError('Note not created', 500));
       }
@@ -45,7 +46,9 @@ export class NotesController extends Controller {
   @Get('{userId}/{noteId}')
   public async getNoteById(@Path() noteId: number): Promise<CustomResponse<NotesRes | null>> {
     try {
-      const data = await this.notesRepository.findOne({ where: { id: noteId } });
+      // const data = await this.notesRepository.findOne({ where: { id: noteId } });
+
+      const data = await this.shareNoteRepository.createQueryBuilder().innerJoinAndSelect();
 
       if (data !== null) {
         return new CustomResponse(data, null);

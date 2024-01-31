@@ -180,6 +180,22 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"NoteCreationReq": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"content": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"title",
+					"content"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"NotesRes": {
 				"properties": {
 					"id": {
@@ -196,6 +212,9 @@
 					"content": {
 						"type": "string"
 					},
+					"permission": {
+						"$ref": "#/components/schemas/Permission"
+					},
 					"createdAt": {
 						"type": "string",
 						"format": "date-time"
@@ -210,6 +229,7 @@
 					"userId",
 					"title",
 					"content",
+					"permission",
 					"createdAt",
 					"updatedAt"
 				],
@@ -238,22 +258,6 @@
 				"required": [
 					"data",
 					"error"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"NoteCreationReq": {
-				"properties": {
-					"title": {
-						"type": "string"
-					},
-					"content": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"title",
-					"content"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -410,7 +414,7 @@
 		},
 		"securitySchemes": {
 			"BearerAuth": {
-				"type": "apiKey",
+				"type": "http",
 				"name": "Authorization",
 				"in": "header",
 				"description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
@@ -418,14 +422,20 @@
 		}
 	},
 	"info": {
-		"title": "ShareScribe-API",
-		"version": "1.0.0",
+		"title": "ShareScribe API",
+		"version": "1.0.1",
 		"description": "This is a simple notes sharing api, in which you can create, read, update, delete and share notes with other users.",
+		"termsOfService": "http://example.com/terms/",
 		"license": {
-			"name": "ISC"
+			"name": {
+				"name": "Apache 2.0",
+				"url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+			}
 		},
 		"contact": {
-			"name": "Majji Kishore"
+			"name": "API Support",
+			"url": "http://www.example.com/support",
+			"email": "majjikishore031@gmail.com"
 		}
 	},
 	"paths": {
@@ -626,7 +636,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/CustomResponse_NotesRes-or-null_"
+									"$ref": "#/components/schemas/CustomResponse_string-or-null_"
 								}
 							}
 						}

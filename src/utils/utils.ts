@@ -21,7 +21,6 @@ export const handleErrors = (error: any): CustomError => {
 };
 
 export const filterUsers = (users: User[]) => {
-  // remove the password property from each user
   const filteredUsers = users.map((user) => {
     const { passwordHash, ...rest } = user;
     return rest;

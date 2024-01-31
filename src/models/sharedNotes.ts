@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, CreateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Note } from './notes';
 import { User } from './user';
 
@@ -13,14 +13,14 @@ export class SharedNote {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.id)
-  byuserId: number;
+  @ManyToOne(() => User, (user) => user.id, { nullable: false })
+  byuser: User;
 
-  @ManyToOne(() => User, (user) => user.id)
-  toUserId: number;
+  @ManyToOne(() => User, (user) => user.id, { nullable: false })
+  toUser: User;
 
-  @ManyToOne(() => Note, (note) => note.id)
-  noteId: number;
+  @ManyToOne(() => Note, (note) => note.id, { nullable: false })
+  note: Note;
 
   @Column({
     type: 'enum',

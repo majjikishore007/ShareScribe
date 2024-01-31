@@ -6,9 +6,8 @@ export class Note {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.id)
-  @Column()
-  userId: number;
+  @ManyToOne(() => User, (user) => user.id, { nullable: false })
+  user: User;
 
   @Column({ length: 200 })
   title: string;

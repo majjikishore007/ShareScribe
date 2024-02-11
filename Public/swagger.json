@@ -203,64 +203,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ObjectLiteral": {
-				"description": "Interface of the simple literal object with any string keys.",
-				"properties": {},
-				"type": "object",
-				"additionalProperties": {}
-			},
-			"UpdateResult": {
-				"description": "Result object returned by UpdateQueryBuilder execution.",
-				"properties": {
-					"raw": {
-						"description": "Raw SQL result returned by executed query."
-					},
-					"affected": {
-						"type": "number",
-						"format": "double",
-						"description": "Number of affected rows/documents\nNot all drivers support this"
-					},
-					"generatedMaps": {
-						"items": {
-							"$ref": "#/components/schemas/ObjectLiteral"
-						},
-						"type": "array",
-						"description": "Generated values returned by a database.\nHas entity-like structure (not just column database name and values)."
-					}
-				},
-				"required": [
-					"raw",
-					"generatedMaps"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"CustomResponse_UpdateResult-or-null_": {
-				"properties": {
-					"data": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/UpdateResult"
-							}
-						],
-						"nullable": true
-					},
-					"error": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/CustomError"
-							}
-						],
-						"nullable": true
-					}
-				},
-				"required": [
-					"data",
-					"error"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"UserRes": {
 				"properties": {
 					"id": {
@@ -383,6 +325,24 @@
 					"noteId",
 					"toUserId",
 					"permission"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RemovePermissionReq": {
+				"properties": {
+					"noteId": {
+						"type": "number",
+						"format": "double"
+					},
+					"toUserId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"noteId",
+					"toUserId"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -576,7 +536,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/CustomResponse_UpdateResult-or-null_"
+									"$ref": "#/components/schemas/CustomResponse_string-or-null_"
 								}
 							}
 						}
@@ -882,7 +842,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/UpdatePermissionReq"
+								"$ref": "#/components/schemas/RemovePermissionReq"
 							}
 						}
 					}
@@ -971,7 +931,11 @@
 				"tags": [
 					"Authentication"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": []
 			}
 		}

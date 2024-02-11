@@ -14,13 +14,13 @@ export class SharedNote {
   id: number;
 
   @ManyToOne(() => User, (user) => user.id, { nullable: false })
-  byuser: User;
+  byUser: number;
 
   @ManyToOne(() => User, (user) => user.id, { nullable: false })
-  toUser: User;
+  toUser: number;
 
   @ManyToOne(() => Note, (note) => note.id, { nullable: false })
-  note: Note;
+  note: number;
 
   @Column({
     type: 'enum',

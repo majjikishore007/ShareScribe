@@ -7,7 +7,7 @@ export class Note {
   id: number;
 
   @ManyToOne(() => User, (user) => user.id, { nullable: false })
-  user: User;
+  user: number;
 
   @Column({ length: 200 })
   title: string;

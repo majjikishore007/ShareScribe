@@ -1,7 +1,7 @@
-import { type Permission, SharedNote } from '../models/sharedNotes';
+import { Body, Controller, Path, Post, Put, Route, Tags } from 'tsoa';
 import { AppDataSource } from '../config/database/ormconfig';
+import { SharedNote, type Permission } from '../models/sharedNotes';
 import { CustomError, CustomResponse } from '../types';
-import { Body, Controller, Delete, Path, Post, Put, Route, Tags } from 'tsoa';
 import { handleErrors } from '../utils/utils';
 
 export interface ShareNoteReq {
@@ -25,8 +25,9 @@ export class SharedNoteController extends Controller {
     @Body() noteCreationReq: ShareNoteReq
   ): Promise<CustomResponse<string | null>> {
     try {
+      console.log('notes creation req', noteCreationReq);
       const { noteId, toUserId, permission } = noteCreationReq;
-      const data = await this.shareNoteRepository.save({ byuserId: userId, noteId, toUserId, permission });
+      const data = await this.shareNoteRepository.save({ byuser: userId, toUser: toUserId, note: noteId, permission });
       if (data !== null) {
         return new CustomResponse('Note shared successfully', null);
       } else {
@@ -44,7 +45,10 @@ export class SharedNoteController extends Controller {
   ): Promise<CustomResponse<string | null>> {
     try {
       const { noteId, toUserId, permission } = updatePermissionReq;
-      const data = await this.shareNoteRepository.update({ byuserId: userId, noteId, toUserId }, { permission });
+      const data = await this.shareNoteRepository.update(
+        { byUser: userId, toUser: toUserId, note: noteId },
+        { permission }
+      );
       if (data !== null) {
         return new CustomResponse('Permission updated successfully', null);
       } else {
@@ -55,14 +59,14 @@ export class SharedNoteController extends Controller {
     }
   }
 
-  @Delete('remove-permission/{userId}')
+  @Post('remove-permission/{userId}')
   public async removePermission(
     @Path() userId: number,
     @Body() updatePermissionReq: UpdatePermissionReq
   ): Promise<CustomResponse<string | null>> {
     try {
       const { noteId, toUserId } = updatePermissionReq;
-      const data = await this.shareNoteRepository.delete({ byuserId: userId, noteId, toUserId });
+      const data = await this.shareNoteRepository.delete({ byUser: userId, toUser: toUserId, note: noteId });
       if (data !== null) {
         return new CustomResponse('Permission removed successfully', null);
       } else {

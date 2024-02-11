@@ -6,7 +6,6 @@ import { handleErrors } from '../utils/utils';
 const userController = new UserController();
 
 export const getUserById = async (req: Request, res: Response, next: NextFunction, id: number) => {
-  console.log('ecuting middle ware --------------------------------------------');
   try {
     const data = await userController.getUserById(id);
     if (data.data !== null) {

@@ -7,10 +7,10 @@
     "name": "ShareScribe API",
     "description": "This is a simple notes sharing api, in which you can create, read, update, delete and share notes with other users.",
     "basePath": "/api",
-    "termsOfService": "http://example.com/terms/",
+    "termsOfService": "",
     "contact": {
       "name": "API Support",
-      "url": "http://www.example.com/support",
+      "url": "",
       "email": "majjikishore031@gmail.com"
     },
     "license": {
@@ -19,11 +19,10 @@
     },
     "outputDirectory": "Public",
     "securityDefinitions": {
-      "BearerAuth": {
+      "jwt": {
         "type": "http",
-        "name": "Authorization",
-        "in": "header",
-        "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     },
     "yaml": false,

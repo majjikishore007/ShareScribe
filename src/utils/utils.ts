@@ -1,5 +1,6 @@
 import { createHmac } from 'crypto';
 import jwt from 'jsonwebtoken';
+import { type NotesRes } from '../controllers/notes';
 import { _APP_SECRET_ } from '../credentials';
 import { type User } from '../models/user';
 import { CustomError } from '../types';
@@ -26,4 +27,20 @@ export const filterUsers = (users: User[]) => {
     return rest;
   });
   return filteredUsers;
+};
+
+export const transformNotesData = (data: any): NotesRes => {
+  const { permission, note } = data;
+
+  const notesRes: NotesRes = {
+    id: note.id,
+    userId: data.toUser,
+    title: note.title,
+    content: note.content,
+    permission,
+    createdAt: note.createdAt,
+    updatedAt: note.updatedAt
+  };
+
+  return notesRes;
 };

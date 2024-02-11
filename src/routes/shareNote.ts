@@ -9,8 +9,9 @@ const shareNoteController = new SharedNoteController();
 router.param('userId', getUserById);
 router.param('notesId', getNoteById);
 
-router.post('/share/:userId/:notesId', async (req, res) => {
+router.post('/share/:userId/', async (req, res) => {
   const userId = req.profile?.id;
+  console.log('userId ', userId);
   const shareNoteBody: ShareNoteReq = req.body;
   const data = await shareNoteController.shareNote(Number(userId), shareNoteBody);
   res.json(data);

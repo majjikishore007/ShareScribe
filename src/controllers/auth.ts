@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Route, Tags } from 'tsoa';
+import { Body, Controller, Get, Post, Route, Security, Tags } from 'tsoa';
 import { AppDataSource } from '../config/database/ormconfig';
 import { User } from '../models/user';
 import { CustomError, CustomResponse } from '../types';
@@ -63,6 +63,7 @@ export class AuthController extends Controller {
   }
 
   @Get('signout')
+  @Security('jwt')
   public async signOut(): Promise<CustomResponse<string | null>> {
     try {
       return new CustomResponse('Signout Success', null);

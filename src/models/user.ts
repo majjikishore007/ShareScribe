@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { SharedNote } from './sharedNotes';
 
 @Entity()
 export class User {
@@ -13,6 +14,9 @@ export class User {
 
   @Column()
   passwordHash: string;
+
+  @OneToMany(() => SharedNote, (sharedNote) => sharedNote.toUser)
+  sharedNotes: SharedNote[];
 
   @CreateDateColumn()
   createdAt: Date;

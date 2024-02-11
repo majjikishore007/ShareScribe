@@ -7,37 +7,6 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"UserRes": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"username": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"createdAt": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"updatedAt": {
-						"type": "string",
-						"format": "date-time"
-					}
-				},
-				"required": [
-					"id",
-					"username",
-					"email",
-					"createdAt",
-					"updatedAt"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"CustomError": {
 				"properties": {
 					"status": {
@@ -51,57 +20,6 @@
 				"required": [
 					"status",
 					"message"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"CustomResponse_UserRes-Array-or-null_": {
-				"properties": {
-					"data": {
-						"items": {
-							"$ref": "#/components/schemas/UserRes"
-						},
-						"type": "array",
-						"nullable": true
-					},
-					"error": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/CustomError"
-							}
-						],
-						"nullable": true
-					}
-				},
-				"required": [
-					"data",
-					"error"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"CustomResponse_UserRes-or-null_": {
-				"properties": {
-					"data": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/UserRes"
-							}
-						],
-						"nullable": true
-					},
-					"error": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/CustomError"
-							}
-						],
-						"nullable": true
-					}
-				},
-				"required": [
-					"data",
-					"error"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -128,58 +46,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Permission": {
-				"enum": [
-					"read-only",
-					"read-write",
-					"owner"
-				],
-				"type": "string"
-			},
-			"ShareNoteReq": {
-				"properties": {
-					"noteId": {
-						"type": "number",
-						"format": "double"
-					},
-					"toUserId": {
-						"type": "number",
-						"format": "double"
-					},
-					"permission": {
-						"$ref": "#/components/schemas/Permission"
-					}
-				},
-				"required": [
-					"noteId",
-					"toUserId",
-					"permission"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"UpdatePermissionReq": {
-				"properties": {
-					"noteId": {
-						"type": "number",
-						"format": "double"
-					},
-					"toUserId": {
-						"type": "number",
-						"format": "double"
-					},
-					"permission": {
-						"$ref": "#/components/schemas/Permission"
-					}
-				},
-				"required": [
-					"noteId",
-					"toUserId",
-					"permission"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"NoteCreationReq": {
 				"properties": {
 					"title": {
@@ -195,6 +61,14 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"Permission": {
+				"enum": [
+					"read-only",
+					"read-write",
+					"owner"
+				],
+				"type": "string"
 			},
 			"NotesRes": {
 				"properties": {
@@ -262,11 +136,53 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"CustomResponse_NotesRes-Array-or-null_": {
+			"SharedNote": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"byUser": {
+						"type": "number",
+						"format": "double"
+					},
+					"toUser": {
+						"type": "number",
+						"format": "double"
+					},
+					"note": {
+						"type": "number",
+						"format": "double"
+					},
+					"permission": {
+						"$ref": "#/components/schemas/Permission"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"byUser",
+					"toUser",
+					"note",
+					"permission",
+					"createdAt",
+					"updatedAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CustomResponse_SharedNote-Array-or-null_": {
 				"properties": {
 					"data": {
 						"items": {
-							"$ref": "#/components/schemas/NotesRes"
+							"$ref": "#/components/schemas/SharedNote"
 						},
 						"type": "array",
 						"nullable": true
@@ -345,6 +261,132 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"UserRes": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"email",
+					"createdAt",
+					"updatedAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CustomResponse_UserRes-Array-or-null_": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/UserRes"
+						},
+						"type": "array",
+						"nullable": true
+					},
+					"error": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/CustomError"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"data",
+					"error"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CustomResponse_UserRes-or-null_": {
+				"properties": {
+					"data": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/UserRes"
+							}
+						],
+						"nullable": true
+					},
+					"error": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/CustomError"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"data",
+					"error"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ShareNoteReq": {
+				"properties": {
+					"noteId": {
+						"type": "number",
+						"format": "double"
+					},
+					"toUserId": {
+						"type": "number",
+						"format": "double"
+					},
+					"permission": {
+						"$ref": "#/components/schemas/Permission"
+					}
+				},
+				"required": [
+					"noteId",
+					"toUserId",
+					"permission"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdatePermissionReq": {
+				"properties": {
+					"noteId": {
+						"type": "number",
+						"format": "double"
+					},
+					"toUserId": {
+						"type": "number",
+						"format": "double"
+					},
+					"permission": {
+						"$ref": "#/components/schemas/Permission"
+					}
+				},
+				"required": [
+					"noteId",
+					"toUserId",
+					"permission"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"CustomResponse__token-string_-or-null_": {
 				"properties": {
 					"data": {
@@ -413,11 +455,10 @@
 			}
 		},
 		"securitySchemes": {
-			"BearerAuth": {
+			"jwt": {
 				"type": "http",
-				"name": "Authorization",
-				"in": "header",
-				"description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
 			}
 		}
 	},
@@ -425,7 +466,6 @@
 		"title": "ShareScribe API",
 		"version": "1.0.1",
 		"description": "This is a simple notes sharing api, in which you can create, read, update, delete and share notes with other users.",
-		"termsOfService": "http://example.com/terms/",
 		"license": {
 			"name": {
 				"name": "Apache 2.0",
@@ -434,11 +474,233 @@
 		},
 		"contact": {
 			"name": "API Support",
-			"url": "http://www.example.com/support",
 			"email": "majjikishore031@gmail.com"
 		}
 	},
 	"paths": {
+		"/note/create/{userId}": {
+			"post": {
+				"operationId": "CreateNote",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomResponse_string-or-null_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Notes"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/NoteCreationReq"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/note/{userId}/{noteId}": {
+			"get": {
+				"operationId": "GetNoteById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomResponse_NotesRes-or-null_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Notes"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "noteId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateNote",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomResponse_UpdateResult-or-null_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Notes"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "noteId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/NoteCreationReq"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteNoteById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomResponse_string-or-null_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Notes"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "noteId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/note/{userId}/all": {
+			"get": {
+				"operationId": "GetAllNotes",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomResponse_SharedNote-Array-or-null_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Notes"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
 		"/user/all": {
 			"get": {
 				"operationId": "GetAllUsers",
@@ -586,7 +848,7 @@
 			}
 		},
 		"/notes/remove-permission/{userId}": {
-			"delete": {
+			"post": {
 				"operationId": "RemovePermission",
 				"responses": {
 					"200": {
@@ -625,182 +887,6 @@
 						}
 					}
 				}
-			}
-		},
-		"/notes/create/{userId}": {
-			"post": {
-				"operationId": "CreateNote",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/CustomResponse_string-or-null_"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Notes"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/NoteCreationReq"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/notes/{userId}/{noteId}": {
-			"get": {
-				"operationId": "GetNoteById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/CustomResponse_NotesRes-or-null_"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Notes"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "noteId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			},
-			"put": {
-				"operationId": "UpdateNote",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/CustomResponse_UpdateResult-or-null_"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Notes"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "noteId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/NoteCreationReq"
-							}
-						}
-					}
-				}
-			},
-			"delete": {
-				"operationId": "DeleteNoteById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/CustomResponse_string-or-null_"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Notes"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "noteId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
-		"/notes/{userId}/all": {
-			"get": {
-				"operationId": "GetAllNotes",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/CustomResponse_NotesRes-Array-or-null_"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Notes"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
 			}
 		},
 		"/auth/signup": {

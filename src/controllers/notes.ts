@@ -1,10 +1,10 @@
-import { Body, Controller, Delete, Get, Path, Post, Put, Route, Tags } from 'tsoa';
-import { type UpdateResult } from 'typeorm';
+import { Body, Controller, Delete, Get, Path, Post, Put, Route, Security, Tags } from 'tsoa';
+import { Brackets } from 'typeorm';
 import { AppDataSource } from '../config/database/ormconfig';
 import { Note } from '../models/notes';
+import { Permission, SharedNote } from '../models/sharedNotes';
 import { CustomError, CustomResponse } from '../types';
-import { handleErrors } from '../utils/utils';
-import { SharedNote, type Permission } from '../models/sharedNotes';
+import { handleErrors, transformNotesData } from '../utils/utils';
 
 export interface NoteCreationReq {
   title: string;
@@ -20,40 +20,68 @@ export interface NotesRes {
   createdAt: Date;
   updatedAt: Date;
 }
-@Route('notes')
+@Route('note')
 @Tags('Notes')
 export class NotesController extends Controller {
   private readonly notesRepository = AppDataSource.getRepository(Note);
   private readonly shareNoteRepository = AppDataSource.getRepository(SharedNote);
 
   @Post('create/{userId}')
+  @Security('jwt')
   public async createNote(
     @Path() userId: number,
     @Body() noteCreationReq: NoteCreationReq
   ): Promise<CustomResponse<string | null>> {
     try {
-      const data = await this.notesRepository.save({ ...noteCreationReq, userId });
-      if (data !== null) {
-        return new CustomResponse('Notes created successfully', null);
-      } else {
-        return new CustomResponse(null, new CustomError('Note not created', 500));
-      }
+      const newNote = new Note();
+      Object.assign(newNote, noteCreationReq);
+      newNote.user = userId;
+
+      const newSharedNote = new SharedNote();
+      newSharedNote.byUser = userId;
+      newSharedNote.toUser = userId;
+      newSharedNote.permission = Permission.Owner;
+
+      await AppDataSource.manager.transaction(async (transactionalEntityManager) => {
+        const savedNote = await transactionalEntityManager.save(newNote);
+        newSharedNote.note = savedNote.id;
+        await transactionalEntityManager.save(newSharedNote);
+      });
+      return new CustomResponse('Notes created successfully', null);
     } catch (error) {
       return new CustomResponse(null, handleErrors(error));
     }
   }
 
   @Get('{userId}/{noteId}')
-  public async getNoteById(@Path() noteId: number): Promise<CustomResponse<NotesRes | null>> {
+  @Security('jwt')
+  public async getNoteById(@Path() noteId: number, userId: number): Promise<CustomResponse<NotesRes | null>> {
     try {
-      // const data = await this.notesRepository.findOne({ where: { id: noteId } });
-
-      const data = await this.shareNoteRepository.createQueryBuilder().innerJoinAndSelect();
-
+      const data = await this.shareNoteRepository
+        .createQueryBuilder('shareNote')
+        .select([
+          'note.id',
+          'note.userId',
+          'note.title',
+          'note.content',
+          'shareNote.permission',
+          'note.createdAt',
+          'note.updatedAt'
+        ])
+        .leftJoinAndSelect('shareNote.note', 'note')
+        .where('note.id = :noteId', { noteId })
+        .andWhere(
+          new Brackets((qb) => {
+            qb.where('note.userId = :userId', { userId }).orWhere('shareNote.toUserId = :userId', { userId });
+          })
+        )
+        .getOne();
+      console.log('data', data);
       if (data !== null) {
-        return new CustomResponse(data, null);
+        const notes = transformNotesData(data);
+        return new CustomResponse(notes, null);
       } else {
-        return new CustomResponse(null, new CustomError('Note not found', 404));
+        return new CustomResponse(null, new CustomError('Note with id:' + noteId + ' does not exist', 404));
       }
     } catch (error) {
       return new CustomResponse(null, handleErrors(error));
@@ -61,9 +89,15 @@ export class NotesController extends Controller {
   }
 
   @Get('{userId}/all')
-  public async getAllNotes(@Path() userId: number): Promise<CustomResponse<NotesRes[] | null>> {
+  @Security('jwt')
+  public async getAllNotes(@Path() userId: number): Promise<CustomResponse<SharedNote[] | null>> {
     try {
-      const data = await this.notesRepository.find({ where: { userId } });
+      const data = await this.shareNoteRepository
+        .createQueryBuilder('sharedNote')
+        .leftJoinAndSelect('sharedNote.note', 'note')
+        .where('sharedNote.toUser = :userId', { userId })
+        .getMany();
+
       if (data !== null) {
         return new CustomResponse(data, null);
       } else {
@@ -75,33 +109,26 @@ export class NotesController extends Controller {
   }
 
   @Put('{userId}/{noteId}')
+  @Security('jwt')
   public async updateNote(
+    @Path() userId: number,
     @Path() noteId: number,
     @Body() noteCreationReq: NoteCreationReq
-  ): Promise<CustomResponse<UpdateResult | null>> {
+  ): Promise<CustomResponse<string | null>> {
     try {
-      const data = await this.notesRepository.update(noteId, noteCreationReq);
-
-      if (data !== null) {
-        console.log('updated notes  ', data);
-        return new CustomResponse(data, null);
-      } else {
-        return new CustomResponse(null, new CustomError('Note not updated', 500));
-      }
+      await this.notesRepository.update({ id: noteId, user: userId, updatedAt: new Date() }, noteCreationReq);
+      return new CustomResponse('Upddate successfully', null);
     } catch (error) {
       return new CustomResponse(null, handleErrors(error));
     }
   }
 
   @Delete('{userId}/{noteId}')
-  public async deleteNoteById(@Path() noteId: number): Promise<CustomResponse<string | null>> {
+  @Security('jwt')
+  public async deleteNoteById(@Path() userId: number, @Path() noteId: number): Promise<CustomResponse<string | null>> {
     try {
-      const data = await this.notesRepository.delete(noteId);
-      if (data !== null) {
-        return new CustomResponse('Notes got deleted successfully', null);
-      } else {
-        return new CustomResponse(null, new CustomError('Note not deleted', 500));
-      }
+      await this.notesRepository.delete({ id: noteId, user: userId });
+      return new CustomResponse('Notes got deleted successfully', null);
     } catch (error) {
       return new CustomResponse(null, handleErrors(error));
     }

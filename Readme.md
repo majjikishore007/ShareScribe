@@ -6,6 +6,7 @@ shareScribe is backend for a note taking app. It allows users to create, read, u
 
 ## Table of Contents
 * [TechStack](#techstack)
+* [CheckList](#checklist)
 * [Installation](#installation)
 
 ## TechStack
@@ -15,6 +16,17 @@ shareScribe is backend for a note taking app. It allows users to create, read, u
 - PostgreSQL
 - TypeORM
 - TypeScript
+
+## CheckList
+
+- [x] User authentication with JWT
+- [x] Notes can be created, read, updated, and deleted 
+- [x] Notes can be shared with other users
+- [x] Database migrations and ORM configuration using TypeORM
+- [x] Swagger documentation using Swagger UI Express and tsoa
+- [ ] Unit tests with Jest
+- [ ] CI/CD with GitHub Actions
+- [ ] Deployment to AWS
 
 ## Installation
 
@@ -28,9 +40,11 @@ shareScribe is backend for a note taking app. It allows users to create, read, u
 - Navigate to the root directory and run `npm install` to install dependencies
 - Copy the `.env.example` file and rename it to `.env`
 - Update the `.env` file with your database credentials
-- Run `npm run db:create` to create the database 
+- Create a database in PostgreSQL with the name you specified in the `.env` file
+- Run `npm run db:generate` to generate the migration files 
 - Run `npm run migrations:run` to run the migrations 
 - Run `npm run dev-run` to run the server in development mode
+- Navigate to `http://localhost:3000/api-docs` to view the Swagger documentation
 
 
 ## Contributing

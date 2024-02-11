@@ -38,8 +38,8 @@ const main = async (): Promise<void> => {
     // Swagger
     // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcwNjY5Mjk2NCwiZXhwIjoxNzA2NzI4OTY0fQ.0ZsON6_qttllXD8UhhNY9klq8USS7K2e8OOMxmPy4qI
     const swaggerDoc: JsonObject = await getSwaggerDoc();
-    app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
-    app.get('/docs.json', (_req, res) => {
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+    app.get('/api-docs.json', (_req, res) => {
       res.send(swaggerDoc);
     });
     // Routes

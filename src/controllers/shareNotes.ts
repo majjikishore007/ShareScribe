@@ -14,6 +14,10 @@ export interface UpdatePermissionReq {
   toUserId: number;
   permission: Permission;
 }
+export interface RemovePermissionReq {
+  noteId: number;
+  toUserId: number;
+}
 @Route('notes')
 @Tags('ShareNotes')
 export class SharedNoteController extends Controller {
@@ -27,7 +31,7 @@ export class SharedNoteController extends Controller {
     try {
       console.log('notes creation req', noteCreationReq);
       const { noteId, toUserId, permission } = noteCreationReq;
-      const data = await this.shareNoteRepository.save({ byuser: userId, toUser: toUserId, note: noteId, permission });
+      const data = await this.shareNoteRepository.save({ byUser: userId, toUser: toUserId, note: noteId, permission });
       if (data !== null) {
         return new CustomResponse('Note shared successfully', null);
       } else {
@@ -62,10 +66,10 @@ export class SharedNoteController extends Controller {
   @Post('remove-permission/{userId}')
   public async removePermission(
     @Path() userId: number,
-    @Body() updatePermissionReq: UpdatePermissionReq
+    @Body() removePermission: RemovePermissionReq
   ): Promise<CustomResponse<string | null>> {
     try {
-      const { noteId, toUserId } = updatePermissionReq;
+      const { noteId, toUserId } = removePermission;
       const data = await this.shareNoteRepository.delete({ byUser: userId, toUser: toUserId, note: noteId });
       if (data !== null) {
         return new CustomResponse('Permission removed successfully', null);

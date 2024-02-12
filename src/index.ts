@@ -1,24 +1,21 @@
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
 import 'reflect-metadata';
 import swaggerUi, { type JsonObject } from 'swagger-ui-express';
-import { AppDataSource } from './config/database/ormconfig';
+import { attemptDatabaseConnection } from './config/database/ormconfig';
+import { getSwaggerDoc } from './config/swagger';
 import { _APP_PORT_ } from './credentials';
 import authRoutes from './routes/auth';
-import userRoutes from './routes/user';
 import noteRotues from './routes/note';
 import shareNoteRoutes from './routes/shareNote';
-import cookieParser from 'cookie-parser';
-import { getSwaggerDoc } from './config/swagger';
+import userRoutes from './routes/user';
 const main = async (): Promise<void> => {
   try {
     // Database connection
     console.log('Connecting to database...');
+    await attemptDatabaseConnection();
 
-    const database = await AppDataSource.initialize();
-    if (database.isInitialized) {
-      console.log('Database connected');
-    }
     // await database.runMigrations();
 
     // Express server

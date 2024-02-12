@@ -1,0 +1,30 @@
+version: '3'
+services:
+  server:
+    build: .
+    container_name: server
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment: 
+      DB_HOST: db
+    networks:
+      - app-network
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_USER: ${DATABASE_USER}
+    volumes:
+      - data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - '5432:5432'
+    networks:
+      - app-network
+volumes: 
+  data:
+networks:  
+  app-network:
+    driver: bridge

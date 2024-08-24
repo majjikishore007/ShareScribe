@@ -1,60 +1,120 @@
-# ShareScribe 
+
+# ShareScribe
 
 ## Description
-shareScribe is backend for a note taking app. It allows users to create, read, update, and delete notes and share them with other users.
 
+ShareScribe is a robust backend for a note-taking app that allows users to seamlessly create, read, update, delete, and share notes with others. It leverages modern web technologies to provide a secure, scalable, and efficient API.
 
 ## Table of Contents
-* [TechStack](#techstack)
-* [CheckList](#checklist)
-* [Installation](#installation)
 
-## TechStack
+- [Tech Stack](#tech-stack)
+- [Features](#features)
+- [Installation](#installation)
+- [Contributing](#contributing)
 
-- Node.js
-- Express
-- PostgreSQL
-- TypeORM
-- TypeScript
+## Tech Stack
 
-## CheckList
+- **Node.js** - JavaScript Runtime
+- **Express** - Web Framework for Node.js
+- **PostgreSQL** - Relational Database Management System
+- **TypeORM** - ORM for TypeScript and JavaScript
+- **TypeScript** - Typed JavaScript at Any Scale
 
-- [x] User authentication with JWT
-- [x] Notes can be created, read, updated, and deleted 
-- [x] Notes can be shared with other users
-- [x] Database migrations and ORM configuration using TypeORM
-- [x] Swagger documentation using Swagger UI Express and tsoa
-- [x] Docker Containerization
-- [ ] Unit tests with Jest
-- [ ] CI/CD with GitHub Actions
-- [ ] Deployment to AWS
+## Features
+
+- ✅ **User Authentication** - Secure user login and registration with JWT.
+- ✅ **CRUD Operations for Notes** - Users can create, read, update, and delete notes.
+- ✅ **Note Sharing** - Share notes with other users easily.
+- ✅ **Database Migrations** - Seamless database migrations with TypeORM.
+- ✅ **API Documentation** - Swagger UI Express and tsoa for API documentation.
+- ✅ **Containerization** - Docker support for consistent development and deployment.
+- ⬜ **Unit Testing** - Planned unit tests with Jest.
+- ⬜ **CI/CD** - Continuous Integration and Deployment with GitHub Actions.
+- ⬜ **Deployment** - Future deployment plans to AWS.
 
 ## Installation
 
 ### Prerequisites
-- Node.js v18.0.0 or higher
-- PostgreSQL v15.0.0 or higher
+
+- **Node.js** v18.0.0 or higher
+- **PostgreSQL** v15.0.0 or higher
 
 ### Running Without Docker Compose
 
-- Fork the repo
-- Clone the repo to your local machine
-- Navigate to the root directory and run `npm install` to install dependencies
-- Copy the `.env.example` file and rename it to `.env`
-- Update the `.env` file with your database credentials
-- Create a database in PostgreSQL with the name you specified in the `.env` file
-- Run `npm run db:generate` to generate the migration files 
-- Run `npm run migrations:run` to run the migrations 
-- Run `npm run dev-run` to run the server in development mode
-- Navigate to `http://localhost:3000/api-docs` to view the Swagger documentation
+1. **Fork and Clone the Repository:**
+   
+   ```bash
+   git clone https://github.com/your-repo/shareScribe.git
+   ```
+
+2. **Navigate to the Root Directory and Install Dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Environment Configuration:**
+   - Copy `.env.example` to `.env`.
+   - Update the `.env` file with your database credentials.
+
+4. **Database Setup:**
+   - Create a PostgreSQL database with the name specified in your `.env` file.
+   - Generate migration files with:
+
+     ```bash
+     npm run db:generate
+     ```
+
+   - Run the migrations:
+
+     ```bash
+     npm run migrations:run
+     ```
+
+5. **Start the Server:**
+
+   ```bash
+   npm run dev-run
+   ```
+
+6. **Access the Swagger Documentation:**
+
+   Visit [http://localhost:3000/api-docs](http://localhost:3000/api-docs) in your browser to view the API documentation.
 
 ### Running With Docker Compose
-- Ensure Docker and Docker Compose are installed on your machine.
-- Navigate to the root directory of the project.
-- Create a `.env` file with your environment variables as specified in `.env.example`. For Docker, make sure the database host matches your service name for PostgreSQL in docker-compose.yml.
-- Use Docker Compose to build and run the services: `docker-compose up --build`
-- To stop the containers, you can use: `docker-compose down`
-- Access the application as you would normally, with the Swagger documentation available at `http://localhost:3000/api-docs`.
+
+1. **Ensure Docker and Docker Compose Are Installed:**
+
+   Install Docker from the [official website](https://docs.docker.com/get-docker/).
+
+2. **Navigate to the Root Directory:**
+
+   ```bash
+   cd shareScribe
+   ```
+
+3. **Environment Configuration:**
+
+   - Copy `.env.example` to `.env`.
+   - Ensure the PostgreSQL service name in `.env` matches the service name in `docker-compose.yml`.
+
+4. **Build and Run the Services:**
+
+   ```bash
+   docker-compose up --build
+   ```
+
+5. **Stop the Containers:**
+
+   ```bash
+   docker-compose down
+   ```
+
+6. **Access the Swagger Documentation:**
+
+   Visit [http://localhost:3000/api-docs](http://localhost:3000/api-docs) in your browser to view the API documentation.
 
 ## Contributing
-Contributions are welcome! Please create an issue if you find a bug you'd like to fix or a feature you think should be added. If you'd like to contribute code, please create a pull request and I will review it as soon as I can.
+
+Contributions are highly appreciated! If you encounter any bugs or have suggestions for new features, please open an issue. If you wish to contribute code, feel free to fork the repository, create a new branch, and submit a pull request. All contributions will be reviewed promptly.
+
